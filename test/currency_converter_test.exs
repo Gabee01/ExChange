@@ -29,8 +29,8 @@ defmodule CurrencyConverterTest do
       end
     end
 
-    test "returns error when conversion fails" do
-      params = %{"value" => 10, "current" => "EUR", "target" => "USDA"}
+    test "returns error when conversion results on error" do
+      params = %{"value" => "Ten", "current" => "AEUR", "target" => "USDA"}
       failure_body = %{"result" => "error", "error-type" => "malformed-request"}
       response = %Tesla.Env{body: failure_body, status: 200}
 
@@ -39,7 +39,7 @@ defmodule CurrencyConverterTest do
       end
     end
 
-    test "returns error when api fails" do
+    test "returns error when request fails" do
       params = %{"value" => 10, "current" => "EUR", "target" => "USD"}
       response = %Tesla.Env{body: "error", status: 500}
 

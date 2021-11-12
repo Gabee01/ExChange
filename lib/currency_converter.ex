@@ -20,8 +20,6 @@ defmodule CurrencyConverter do
       {:ok, %Tesla.Env{body: response}} ->
         {:error, response}
 
-      # {:error, %Tesla.env{body: response}} -> _?
-
       {:error, reason} ->
         {:error, reason}
     end
