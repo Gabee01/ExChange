@@ -26,6 +26,7 @@ defmodule CurrencyConverterTest do
 
       with_mock Tesla, get: fn ^expected_url -> {:ok, response} end do
         assert CurrencyConverter.convert(params) == {:ok, 11.528}
+        assert_called(Tesla.get(:_))
       end
     end
 
@@ -36,6 +37,7 @@ defmodule CurrencyConverterTest do
 
       with_mock Tesla, get: fn _ -> {:ok, response} end do
         assert CurrencyConverter.convert(params) == {:error, failure_body}
+        assert_called(Tesla.get(:_))
       end
     end
 
@@ -45,6 +47,7 @@ defmodule CurrencyConverterTest do
 
       with_mock Tesla, get: fn _ -> {:ok, response} end do
         assert CurrencyConverter.convert(params) == {:error, "error"}
+        assert_called(Tesla.get(:_))
       end
     end
 
@@ -53,6 +56,7 @@ defmodule CurrencyConverterTest do
 
       with_mock Tesla, get: fn _ -> {:error, :timeout} end do
         assert CurrencyConverter.convert(params) == {:error, :timeout}
+        assert_called(Tesla.get(:_))
       end
     end
 
