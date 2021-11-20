@@ -14,16 +14,10 @@ defmodule CurrencyConverterWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/", CurrencyConverterWeb do
-    pipe_through(:browser)
-
-    get("/:value/:current/:target", ConverterController, :index)
+  scope "/api", CurrencyConverterWeb do
+    pipe_through(:api)
+    get("convert/:value/:current/:target", ConverterController, :index)
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", CurrencyConverterWeb do
-  #   pipe_through :api
-  # end
 
   # Enables LiveDashboard only for development
   #
