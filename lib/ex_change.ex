@@ -9,51 +9,45 @@ defmodule ExChange do
 
   ## Examples
 
-      iex> ExChange.convert(%{"value" => 1000, "current" => "USD", "target" => "EUR"})
-      {:ok, ???}
+      iex> ExChange.convert(%{"current" => "USD", "target" => "EUR", "value" => "100"})
+      {:ok, %{
+        converted_value: 88.3200,
+        converted_at: "Sat, 20 Nov 2021 00:00:01 +0000"
+      }}
   """
-  @spec convert(map()) :: {:ok, Decimal.t()} | {:error, any()}
+  @spec convert(map()) :: {:ok, float()} | {:error, any()}
   def convert(%{} = params) do
-    amount = Decimal.new(params["value"])
-
-    case get_conversion_rate(params) do
-      {:ok, conversion_rate} ->
-        converted_amount = Decimal.mult(conversion_rate, amount)
-        {:ok, converted_amount}
-
-      {:error, reason} ->
-        {:error, reason}
-    end
-  end
-
-  defp get_conversion_rate(%{"current" => current_currency, "target" => target_currency}) do
-    client = conversor_client()
-    convert_pair_path = convert_pair_path(current_currency, target_currency)
-
-    case Tesla.get(client, convert_pair_path) do
+    case Tesla.get(conversion_client(), build_conversion_path(params)) do
       {:ok, %Tesla.Env{status: 200, body: %{"result" => "success"} = conversion_response}} ->
-        conversion_rate = Decimal.from_float(conversion_response["conversion_rate"])
-        {:ok, conversion_rate}
+        conversion_info = %{
+          converted_at: conversion_response["time_last_update_utc"],
+          converted_value: conversion_response["conversion_result"]
+        }
 
-      {:ok, %Tesla.Env{body: response}} ->
-        {:error, response}
+        {:ok, conversion_info}
+
+      {:ok, %Tesla.Env{status: 200, body: %{"result" => "error"} = error_reponse}} ->
+        {:error, error_reponse["error-type"]}
+
+      {:ok, %Tesla.Env{body: error_reponse}} ->
+        {:error, error_reponse}
 
       {:error, reason} ->
         {:error, reason}
     end
   end
 
-  defp conversor_client do
-    middleware = [
-      {Tesla.Middleware.BaseUrl, base_url()},
-      Tesla.Middleware.JSON
-    ]
-
+  defp conversion_client do
+    middleware = [{Tesla.Middleware.BaseUrl, base_url()}, Tesla.Middleware.JSON]
     Tesla.client(middleware)
   end
 
-  defp convert_pair_path(current_currency, target_currency) do
-    "/#{api_key()}/pair/#{current_currency}/#{target_currency}"
+  defp build_conversion_path(%{
+         "current" => current_currency,
+         "target" => target_currency,
+         "value" => amount
+       }) do
+    "/#{api_key()}/pair/#{current_currency}/#{target_currency}/#{amount}"
   end
 
   defp api_key, do: Application.get_env(:ex_change, :conversion_api)[:api_key]

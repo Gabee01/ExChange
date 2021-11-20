@@ -34,11 +34,10 @@ defmodule ExChange.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix, "~> 1.6"},
       {:phoenix_html, "~> 3.0"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.16"},
-      {:floki, ">= 0.30.0", only: :test},
+      {:phoenix_live_view, "~> 0.17"},
       {:phoenix_live_dashboard, "~> 0.5"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
@@ -46,7 +45,7 @@ defmodule ExChange.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:tesla, "~> 1.4"},
       {:mock, "~> 0.3.7"},
-      {:decimal, "~> 2.0"},
+      {:floki, ">= 0.30.0", only: :test},
       {:excoveralls, "~> 0.14", only: :test},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]

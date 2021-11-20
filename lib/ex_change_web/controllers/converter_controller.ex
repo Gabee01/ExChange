@@ -3,8 +3,8 @@ defmodule ExChangeWeb.ConverterController do
   action_fallback(ExChangeWeb.FallbackController)
 
   def index(conn, params) do
-    with {:ok, converted_value} <- ExChange.convert(params) |> IO.inspect() do
-      json(conn, %{converted_value: converted_value})
+    with {:ok, conversion_info} <- ExChange.convert(params) do
+      json(conn, %{conversion_info: conversion_info})
     end
   end
 end

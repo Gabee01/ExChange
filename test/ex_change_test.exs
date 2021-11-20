@@ -9,14 +9,25 @@ defmodule ExChangeTest do
 
     test "converts EUR to USD" do
       params = %{"value" => "10", "current" => "EUR", "target" => "USD"}
+      expected_url = "/#{@api_key}/pair/EUR/USD/10"
 
-      expected_url = "/#{@api_key}/pair/EUR/USD"
-      expected_body = %{"result" => "success", "conversion_rate" => 1.1528}
+      expected_body = %{
+        "result" => "success",
+        "conversion_result" => 11.5280,
+        "time_last_update_utc" => "Sat, 20 Nov 2021 00:00:01 +0000"
+      }
+
       response = %Tesla.Env{body: expected_body, status: 200}
 
       with_mock Tesla, [:passthrough],
         get: fn %Tesla.Client{}, ^expected_url -> {:ok, response} end do
-        assert ExChange.convert(params) == {:ok, Decimal.new("11.5280")}
+        expected_conversion_info = %{
+          converted_value: 11.5280,
+          converted_at: "Sat, 20 Nov 2021 00:00:01 +0000"
+        }
+
+        assert ExChange.convert(params) == {:ok, expected_conversion_info}
+
         assert_called(Tesla.get(:_, :_))
       end
     end
@@ -27,17 +38,16 @@ defmodule ExChangeTest do
       response = %Tesla.Env{body: failure_body, status: 200}
 
       with_mock Tesla, [:passthrough], get: fn %Tesla.Client{}, _ -> {:ok, response} end do
-        assert ExChange.convert(params) == {:error, failure_body}
+        assert ExChange.convert(params) == {:error, "malformed-request"}
         assert_called(Tesla.get(:_, :_))
       end
     end
 
     test "returns error when request fails" do
       params = %{"value" => "10", "current" => "EUR", "target" => "USD"}
-      response = %Tesla.Env{body: "error", status: 500}
 
-      with_mock Tesla, [:passthrough], get: fn %Tesla.Client{}, _ -> {:ok, response} end do
-        assert ExChange.convert(params) == {:error, "error"}
+      with_mock Tesla, [:passthrough], get: fn %Tesla.Client{}, _ -> {:error, {:no_schema}} end do
+        assert ExChange.convert(params) == {:error, {:no_schema}}
         assert_called(Tesla.get(:_, :_))
       end
     end
