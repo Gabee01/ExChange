@@ -12,12 +12,9 @@ services:
       - "4000:4000"
     environment:
       - MIX_ENV=dev
+      - CURRENCY_CONVERTER_URL=https://v6.exchangerate-api.com/v6/
+      - CURRENCY_CONVERTER_API_KEY=
 
-    networks:
-      default:
-        aliases:
-          - ex_change_web
- 
   test:
     build:
       context: .
@@ -26,15 +23,11 @@ services:
       - .:/opt
       - "build:/opt/_build"
       - "deps:/opt/deps"
-    command: mix do deps.get --only, coveralls --trace --color, format --check-formatted, credo --strict
+    command: mix do deps.get --only, coveralls --trace --color, format
+      --check-formatted, credo --strict
     environment:
       - MIX_ENV=test
 
 volumes:
-  build:
-  deps:
-
-networks:
-  default:
-    external:
-      name: ex_change
+  build: 
+  deps: 

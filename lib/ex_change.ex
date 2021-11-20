@@ -19,12 +19,7 @@ defmodule ExChange do
   def convert(%{} = params) do
     case Tesla.get(conversion_client(), build_conversion_path(params)) do
       {:ok, %Tesla.Env{status: 200, body: %{"result" => "success"} = conversion_response}} ->
-        conversion_info = %{
-          converted_at: conversion_response["time_last_update_utc"],
-          converted_value: conversion_response["conversion_result"]
-        }
-
-        {:ok, conversion_info}
+        {:ok, build_conversion_info(conversion_response)}
 
       {:ok, %Tesla.Env{status: 200, body: %{"result" => "error"} = error_reponse}} ->
         {:error, error_reponse["error-type"]}
@@ -48,6 +43,13 @@ defmodule ExChange do
          "value" => amount
        }) do
     "/#{api_key()}/pair/#{current_currency}/#{target_currency}/#{amount}"
+  end
+
+  defp build_conversion_info(conversion_response) do
+    %{
+      converted_at: conversion_response["time_last_update_utc"],
+      converted_value: conversion_response["conversion_result"]
+    }
   end
 
   defp api_key, do: Application.get_env(:ex_change, :conversion_api)[:api_key]
