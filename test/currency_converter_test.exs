@@ -15,14 +15,14 @@ defmodule CurrencyConverterTest do
       response = %Tesla.Env{body: expected_body, status: 200}
 
       with_mock Tesla, [:passthrough],
-        get: fn %Tesla.Client{}, ^expected_url -> {:ok, Jason.encode(response)} end do
+        get: fn %Tesla.Client{}, ^expected_url -> {:ok, response} end do
         assert CurrencyConverter.convert(params) == {:ok, 11.528}
         assert_called(Tesla.get(:_, :_))
       end
     end
 
-    test "returns error when conversion results on error" do
-      params = %{"value" => "Ten", "current" => "AEUR", "target" => "USDA"}
+    test "returns error when conversion fails" do
+      params = %{"value" => "10", "current" => "AEUR", "target" => "USDA"}
       failure_body = %{"result" => "error", "error-type" => "malformed-request"}
       response = %Tesla.Env{body: failure_body, status: 200}
 
@@ -33,7 +33,7 @@ defmodule CurrencyConverterTest do
     end
 
     test "returns error when request fails" do
-      params = %{"value" => 10, "current" => "EUR", "target" => "USD"}
+      params = %{"value" => "10", "current" => "EUR", "target" => "USD"}
       response = %Tesla.Env{body: "error", status: 500}
 
       with_mock Tesla, [:passthrough], get: fn %Tesla.Client{}, _ -> {:ok, response} end do
@@ -43,7 +43,7 @@ defmodule CurrencyConverterTest do
     end
 
     test "returns error when can't complete the conversion" do
-      params = %{"value" => 10, "current" => "EUR", "target" => "USD"}
+      params = %{"value" => "10", "current" => "EUR", "target" => "USD"}
 
       with_mock Tesla, [:passthrough], get: fn %Tesla.Client{}, _ -> {:error, :timeout} end do
         assert CurrencyConverter.convert(params) == {:error, :timeout}

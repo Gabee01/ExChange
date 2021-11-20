@@ -11,9 +11,9 @@ defmodule CurrencyConverterWeb.ConverterControllerTest do
   end
 
   test "GET / when conversion fails", %{conn: conn} do
-    with_mock CurrencyConverter, convert: fn _params -> {:error, "some reason"} end do
+    with_mock CurrencyConverter, convert: fn _params -> {:error, ["some reason"]} end do
       conn = get(conn, "/10/EUR/USD")
-      assert json_response(conn, 500) == %{"converted_value" => 10}
+      assert json_response(conn, 422) == %{"errors" => ["some reason"]}
       assert_called(CurrencyConverter.convert(:_))
     end
   end
