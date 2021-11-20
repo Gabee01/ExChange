@@ -10,9 +10,7 @@ import Config
 # Configures the endpoint
 config :ex_change, ExChangeWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: ExChangeWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: ExChange.PubSub,
-  live_view: [signing_salt: "H/j8qEGI"]
+  render_errors: [view: ExChangeWeb.ErrorView, accepts: ~w(html json), layout: false]
 
 # Configures Elixir's Logger
 config :logger, :console,
