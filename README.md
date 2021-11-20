@@ -4,8 +4,6 @@ This is ExChange, an API to convert values between currencies.
 
 ExChange uses [ExchangeRate API](https://www.exchangerate-api.com/) to get the current conversion rate. More specifically it uses the [pair conversion endpoint](https://www.exchangerate-api.com/docs/pair-conversion-requests)
 
-[Here](https://www.exchangerate-api.com/docs/supported-currencies) is a list of supported currency codes
-
 Before starting your server, go to [ExchangeRate API](https://www.exchangerate-api.com/) and generate a free API key
 
 To start your `ExChange` server:
@@ -19,4 +17,6 @@ To start your `ExChange` server:
 
 Now you can visit [`localhost:4000/api/convert/100/USD/EUR`](http://localhost:4000/api/convert/100/USD/EUR) from your browser to convert 100 USD to EUR.
 
-Limitations: The API does **not** support negative values on the url.
+Limitations: 
+- [Here](https://www.exchangerate-api.com/docs/supported-currencies) is a list of supported currency codes
+- The API does **not** support negative values on the url.
