@@ -27,36 +27,42 @@ defmodule ExChangeTest do
         }
 
         assert ExChange.convert(params) == {:ok, expected_conversion_info}
-
         assert_called(Tesla.get(:_, :_))
       end
     end
 
     test "returns error when conversion fails" do
       params = %{"value" => "10", "current" => "AEUR", "target" => "USDA"}
+      expected_url = "/#{@api_key}/pair/AEUR/USDA/10"
       failure_body = %{"result" => "error", "error-type" => "malformed-request"}
-      response = %Tesla.Env{body: failure_body, status: 200}
+      response = %Tesla.Env{body: failure_body, status: 400}
 
-      with_mock Tesla, [:passthrough], get: fn %Tesla.Client{}, _ -> {:ok, response} end do
+      with_mock Tesla, [:passthrough],
+        get: fn %Tesla.Client{}, ^expected_url -> {:ok, response} end do
         assert ExChange.convert(params) == {:error, "malformed-request"}
+        assert_called(Tesla.get(:_, :_))
+      end
+    end
+
+    test "returns error when conversion is invalid" do
+      params = %{"value" => "-10", "current" => "EUR", "target" => "USD"}
+      expected_url = "/#{@api_key}/pair/EUR/USD/-10"
+      response = %Tesla.Env{body: "Not found", status: 404}
+
+      with_mock Tesla, [:passthrough],
+        get: fn %Tesla.Client{}, ^expected_url -> {:ok, response} end do
+        assert ExChange.convert(params) == {:error, "Invalid request"}
         assert_called(Tesla.get(:_, :_))
       end
     end
 
     test "returns error when request fails" do
       params = %{"value" => "10", "current" => "EUR", "target" => "USD"}
+      expected_url = "/#{@api_key}/pair/EUR/USD/10"
 
-      with_mock Tesla, [:passthrough], get: fn %Tesla.Client{}, _ -> {:error, {:no_schema}} end do
+      with_mock Tesla, [:passthrough],
+        get: fn %Tesla.Client{}, ^expected_url -> {:error, {:no_schema}} end do
         assert ExChange.convert(params) == {:error, {:no_schema}}
-        assert_called(Tesla.get(:_, :_))
-      end
-    end
-
-    test "returns error when can't complete the conversion" do
-      params = %{"value" => "10", "current" => "EUR", "target" => "USD"}
-
-      with_mock Tesla, [:passthrough], get: fn %Tesla.Client{}, _ -> {:error, :timeout} end do
-        assert ExChange.convert(params) == {:error, :timeout}
         assert_called(Tesla.get(:_, :_))
       end
     end

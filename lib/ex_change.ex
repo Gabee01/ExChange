@@ -21,11 +21,11 @@ defmodule ExChange do
       {:ok, %Tesla.Env{status: 200, body: %{"result" => "success"} = conversion_response}} ->
         {:ok, build_conversion_info(conversion_response)}
 
-      {:ok, %Tesla.Env{status: 200, body: %{"result" => "error"} = error_reponse}} ->
+      {:ok, %Tesla.Env{status: 400, body: %{"result" => "error"} = error_reponse}} ->
         {:error, error_reponse["error-type"]}
 
-      {:ok, %Tesla.Env{body: error_reponse}} ->
-        {:error, error_reponse}
+      {:ok, %Tesla.Env{}} ->
+        {:error, "Invalid request"}
 
       {:error, reason} ->
         {:error, reason}
