@@ -1,4 +1,4 @@
-defmodule CurrencyConverter.Application do
+defmodule ExChange.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -9,18 +9,18 @@ defmodule CurrencyConverter.Application do
   def start(_type, _args) do
     children = [
       # Start the Telemetry supervisor
-      CurrencyConverterWeb.Telemetry,
+      ExChangeWeb.Telemetry,
       # Start the PubSub system
-      {Phoenix.PubSub, name: CurrencyConverter.PubSub},
+      {Phoenix.PubSub, name: ExChange.PubSub},
       # Start the Endpoint (http/https)
-      CurrencyConverterWeb.Endpoint
-      # Start a worker by calling: CurrencyConverter.Worker.start_link(arg)
-      # {CurrencyConverter.Worker, arg}
+      ExChangeWeb.Endpoint
+      # Start a worker by calling: ExChange.Worker.start_link(arg)
+      # {ExChange.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: CurrencyConverter.Supervisor]
+    opts = [strategy: :one_for_one, name: ExChange.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
@@ -28,7 +28,7 @@ defmodule CurrencyConverter.Application do
   # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
-    CurrencyConverterWeb.Endpoint.config_change(changed, removed)
+    ExChangeWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

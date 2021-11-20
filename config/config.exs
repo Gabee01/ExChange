@@ -8,10 +8,10 @@
 import Config
 
 # Configures the endpoint
-config :currency_converter, CurrencyConverterWeb.Endpoint,
+config :ex_change, ExChangeWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: CurrencyConverterWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: CurrencyConverter.PubSub,
+  render_errors: [view: ExChangeWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: ExChange.PubSub,
   live_view: [signing_salt: "H/j8qEGI"]
 
 # Configures Elixir's Logger
@@ -22,7 +22,7 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :currency_converter, :conversion_api,
+config :ex_change, :conversion_api,
   url: System.get_env("CURRENCY_CONVERTER_URL"),
   api_key: System.get_env("CURRENCY_CONVERTER_API_KEY")
 

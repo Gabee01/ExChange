@@ -1,10 +1,10 @@
-defmodule CurrencyConverter do
+defmodule ExChange do
   # @moduledoc """
-  # CurrencyConverter is responsible for managing calls to external services related to currency convertion
+  # ExChange is responsible for managing calls to external services related to currency convertion
   # """
 
   # @doc """
-  #   CurrencyConverter.convert(%{"value" => 500000, "current" => "USD", "target" => "BRL"})
+  #   ExChange.convert(%{"value" => 500000, "current" => "USD", "target" => "BRL"})
   # """
   @spec convert(map()) :: {:ok, float()} | {:error, map()}
   def convert(%{} = params) do
@@ -43,6 +43,6 @@ defmodule CurrencyConverter do
     "/#{api_key()}/pair/#{current_currency}/#{target_currency}"
   end
 
-  defp api_key, do: Application.get_env(:currency_converter, :conversion_api)[:api_key]
-  defp base_url, do: Application.get_env(:currency_converter, :conversion_api)[:url]
+  defp api_key, do: Application.get_env(:ex_change, :conversion_api)[:api_key]
+  defp base_url, do: Application.get_env(:ex_change, :conversion_api)[:url]
 end

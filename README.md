@@ -1,4 +1,4 @@
-# CurrencyConverter
+# ExChange
 
 To start your Phoenix server:
 

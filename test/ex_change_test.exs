@@ -1,4 +1,4 @@
-defmodule CurrencyConverterTest do
+defmodule ExChangeTest do
   use ExUnit.Case
   import Mock
 
@@ -16,7 +16,7 @@ defmodule CurrencyConverterTest do
 
       with_mock Tesla, [:passthrough],
         get: fn %Tesla.Client{}, ^expected_url -> {:ok, response} end do
-        assert CurrencyConverter.convert(params) == {:ok, 11.528}
+        assert ExChange.convert(params) == {:ok, 11.528}
         assert_called(Tesla.get(:_, :_))
       end
     end
@@ -27,7 +27,7 @@ defmodule CurrencyConverterTest do
       response = %Tesla.Env{body: failure_body, status: 200}
 
       with_mock Tesla, [:passthrough], get: fn %Tesla.Client{}, _ -> {:ok, response} end do
-        assert CurrencyConverter.convert(params) == {:error, failure_body}
+        assert ExChange.convert(params) == {:error, failure_body}
         assert_called(Tesla.get(:_, :_))
       end
     end
@@ -37,7 +37,7 @@ defmodule CurrencyConverterTest do
       response = %Tesla.Env{body: "error", status: 500}
 
       with_mock Tesla, [:passthrough], get: fn %Tesla.Client{}, _ -> {:ok, response} end do
-        assert CurrencyConverter.convert(params) == {:error, "error"}
+        assert ExChange.convert(params) == {:error, "error"}
         assert_called(Tesla.get(:_, :_))
       end
     end
@@ -46,14 +46,14 @@ defmodule CurrencyConverterTest do
       params = %{"value" => "10", "current" => "EUR", "target" => "USD"}
 
       with_mock Tesla, [:passthrough], get: fn %Tesla.Client{}, _ -> {:error, :timeout} end do
-        assert CurrencyConverter.convert(params) == {:error, :timeout}
+        assert ExChange.convert(params) == {:error, :timeout}
         assert_called(Tesla.get(:_, :_))
       end
     end
 
     defp setup_environment(_context) do
       configuration = %{url: @url, api_key: @api_key}
-      Application.put_env(:currency_converter, :conversion_api, configuration)
+      Application.put_env(:ex_change, :conversion_api, configuration)
     end
   end
 end

@@ -1,4 +1,4 @@
-defmodule CurrencyConverterWeb.ConnCase do
+defmodule ExChangeWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule CurrencyConverterWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use CurrencyConverterWeb.ConnCase, async: true`, although
+  by setting `use ExChangeWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -22,12 +22,12 @@ defmodule CurrencyConverterWeb.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import CurrencyConverterWeb.ConnCase
+      import ExChangeWeb.ConnCase
 
-      alias CurrencyConverterWeb.Router.Helpers, as: Routes
+      alias ExChangeWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
-      @endpoint CurrencyConverterWeb.Endpoint
+      @endpoint ExChangeWeb.Endpoint
     end
   end
 

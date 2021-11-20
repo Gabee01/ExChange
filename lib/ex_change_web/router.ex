@@ -1,11 +1,11 @@
-defmodule CurrencyConverterWeb.Router do
-  use CurrencyConverterWeb, :router
+defmodule ExChangeWeb.Router do
+  use ExChangeWeb, :router
 
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
     plug(:fetch_live_flash)
-    plug(:put_root_layout, {CurrencyConverterWeb.LayoutView, :root})
+    plug(:put_root_layout, {ExChangeWeb.LayoutView, :root})
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
   end
@@ -14,7 +14,7 @@ defmodule CurrencyConverterWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/api", CurrencyConverterWeb do
+  scope "/api", ExChangeWeb do
     pipe_through(:api)
     get("convert/:value/:current/:target", ConverterController, :index)
   end
@@ -31,7 +31,7 @@ defmodule CurrencyConverterWeb.Router do
 
     scope "/" do
       pipe_through(:browser)
-      live_dashboard("/dashboard", metrics: CurrencyConverterWeb.Telemetry)
+      live_dashboard("/dashboard", metrics: ExChangeWeb.Telemetry)
     end
   end
 end

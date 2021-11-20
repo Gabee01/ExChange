@@ -1,12 +1,12 @@
-defmodule CurrencyConverterWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :currency_converter
+defmodule ExChangeWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :ex_change
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_currency_converter_key",
+    key: "_ex_change_key",
     signing_salt: "fzNTg+dj"
   ]
 
@@ -18,7 +18,7 @@ defmodule CurrencyConverterWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :currency_converter,
+    from: :ex_change,
     gzip: false,
     only: ~w(assets fonts images favicon.ico robots.txt)
 
@@ -45,5 +45,5 @@ defmodule CurrencyConverterWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug CurrencyConverterWeb.Router
+  plug ExChangeWeb.Router
 end

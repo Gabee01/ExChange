@@ -1,4 +1,4 @@
-defmodule CurrencyConverterWeb.Telemetry do
+defmodule ExChangeWeb.Telemetry do
   @moduledoc false
   use Supervisor
   import Telemetry.Metrics
@@ -43,7 +43,7 @@ defmodule CurrencyConverterWeb.Telemetry do
     [
       # A module, function and arguments to be invoked periodically.
       # This function must call :telemetry.execute/3 and a metric must be added above.
-      # {CurrencyConverterWeb, :count_users, []}
+      # {ExChangeWeb, :count_users, []}
     ]
   end
 end

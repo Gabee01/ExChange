@@ -1,4 +1,4 @@
-defmodule CurrencyConverterWeb.ErrorHelpers do
+defmodule ExChangeWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """

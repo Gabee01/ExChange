@@ -16,7 +16,7 @@ services:
     networks:
       default:
         aliases:
-          - currency_converter_web
+          - ex_change_web
  
   test:
     build:
@@ -37,4 +37,4 @@ volumes:
 networks:
   default:
     external:
-      name: currency_converter
+      name: ex_change
