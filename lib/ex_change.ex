@@ -1,16 +1,28 @@
 defmodule ExChange do
-  # @moduledoc """
-  # ExChange is responsible for managing calls to external services related to currency convertion
-  # """
+  @moduledoc """
+  ExChange is responsible for calling the conversion api and compute the converted value
+  """
 
-  # @doc """
-  #   ExChange.convert(%{"value" => 500000, "current" => "USD", "target" => "BRL"})
-  # """
-  @spec convert(map()) :: {:ok, float()} | {:error, map()}
+  @doc """
+  Calls the external api to get current conversion between the given currencies
+  and converts the amount requested.
+
+  ## Examples
+
+      iex> ExChange.convert(%{"value" => 1000, "current" => "USD", "target" => "EUR"})
+      {:ok, ???}
+  """
+  @spec convert(map()) :: {:ok, Decimal.t()} | {:error, any()}
   def convert(%{} = params) do
-    with {value, ""} <- Float.parse(params["value"]),
-         {:ok, conversion_rate} <- get_conversion_rate(params) do
-      {:ok, conversion_rate * value}
+    amount = Decimal.new(params["value"])
+
+    case get_conversion_rate(params) do
+      {:ok, conversion_rate} ->
+        converted_amount = Decimal.mult(conversion_rate, amount)
+        {:ok, converted_amount}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 
@@ -20,7 +32,8 @@ defmodule ExChange do
 
     case Tesla.get(client, convert_pair_path) do
       {:ok, %Tesla.Env{status: 200, body: %{"result" => "success"} = conversion_response}} ->
-        {:ok, conversion_response["conversion_rate"]}
+        conversion_rate = Decimal.from_float(conversion_response["conversion_rate"])
+        {:ok, conversion_rate}
 
       {:ok, %Tesla.Env{body: response}} ->
         {:error, response}

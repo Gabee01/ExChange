@@ -16,7 +16,7 @@ defmodule ExChangeWeb.Router do
 
   scope "/api", ExChangeWeb do
     pipe_through(:api)
-    get("convert/:value/:current/:target", ConverterController, :index)
+    get("/convert/:value/:current/:target", ConverterController, :index)
   end
 
   # Enables LiveDashboard only for development

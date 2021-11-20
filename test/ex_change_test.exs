@@ -16,7 +16,7 @@ defmodule ExChangeTest do
 
       with_mock Tesla, [:passthrough],
         get: fn %Tesla.Client{}, ^expected_url -> {:ok, response} end do
-        assert ExChange.convert(params) == {:ok, 11.528}
+        assert ExChange.convert(params) == {:ok, Decimal.new("11.5280")}
         assert_called(Tesla.get(:_, :_))
       end
     end

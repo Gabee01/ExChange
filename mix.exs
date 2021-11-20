@@ -10,7 +10,8 @@ defmodule ExChange.MixProject do
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
@@ -45,7 +46,7 @@ defmodule ExChange.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:tesla, "~> 1.4"},
       {:mock, "~> 0.3.7"},
-      {:money, "~> 1.4"},
+      {:decimal, "~> 2.0"},
       {:excoveralls, "~> 0.14", only: :test},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]
