@@ -2,7 +2,7 @@
 
 This is ExChange, an API to convert values between currencies.
 
-ExChange uses [ExchangeRate API](https://www.exchangerate-api.com/) to get the convert currencies. More specifically it is a wrapper to the [pair conversion endpoint](https://www.exchangerate-api.com/docs/pair-conversion-requests)
+ExChange uses [ExchangeRate API](https://www.exchangerate-api.com/) to convert currencies. More specifically it is a wrapper to the [pair conversion endpoint](https://www.exchangerate-api.com/docs/pair-conversion-requests)
 
 Before starting your server, go to [ExchangeRate API](https://www.exchangerate-api.com/) and generate a free API key
 
