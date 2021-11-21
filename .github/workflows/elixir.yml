@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install OTP and Elixir
-        uses: actions/setup-elixir@v1
+        uses: erlef/setup-beam@988e02bfe678367a02564f65ca2e37726dc0268f
         with:
           otp-version: 24.1
           elixir-version: 1.12.3
