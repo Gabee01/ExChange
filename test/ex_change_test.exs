@@ -9,7 +9,7 @@ defmodule ExChangeTest do
     setup [:setup_environment]
 
     test "converts EUR to USD" do
-      params = %{"value" => "10", "current" => "EUR", "target" => "USD"}
+      params = %{"amount" => "10", "current" => "EUR", "target" => "USD"}
       expected_url = "/#{@api_key}/pair/EUR/USD/10"
 
       expected_body = %{
@@ -35,7 +35,7 @@ defmodule ExChangeTest do
     end
 
     test "returns error when conversion fails" do
-      params = %{"value" => "10", "current" => "AEUR", "target" => "USDA"}
+      params = %{"amount" => "10", "current" => "AEUR", "target" => "USDA"}
       expected_url = "/#{@api_key}/pair/AEUR/USDA/10"
       failure_body = %{"result" => "error", "error-type" => "malformed-request"}
       response = %Tesla.Env{body: failure_body, status: 400}
@@ -48,7 +48,7 @@ defmodule ExChangeTest do
     end
 
     test "returns error when conversion is invalid" do
-      params = %{"value" => "-10", "current" => "EUR", "target" => "USD"}
+      params = %{"amount" => "-10", "current" => "EUR", "target" => "USD"}
       expected_url = "/#{@api_key}/pair/EUR/USD/-10"
       response = %Tesla.Env{body: "Not found", status: 404}
 
@@ -60,7 +60,7 @@ defmodule ExChangeTest do
     end
 
     test "returns error when request fails" do
-      params = %{"value" => "10", "current" => "EUR", "target" => "USD"}
+      params = %{"amount" => "10", "current" => "EUR", "target" => "USD"}
       expected_url = "/#{@api_key}/pair/EUR/USD/10"
 
       with_mock Tesla, [:passthrough],

@@ -1,6 +1,6 @@
 defmodule ExChange do
   @moduledoc """
-  ExChange is responsible for calling the conversion api and compute the converted value
+  ExChange is responsible for calling the conversion api and compute the converted amount
   """
   alias ExChange.ConversionInfo
 
@@ -10,7 +10,7 @@ defmodule ExChange do
 
   ## Examples
 
-    iex> ExChange.convert(%{"current" => "USD", "target" => "EUR", "value" => "100"})
+    iex> ExChange.convert(%{"current" => "USD", "target" => "EUR", "amount" => "100"})
     {:ok, %ConversionInfo{
         amount: 1234.56,
         currency: "BRL",
@@ -45,7 +45,7 @@ defmodule ExChange do
   defp build_conversion_path(%{
          "current" => current_currency,
          "target" => target_currency,
-         "value" => amount
+         "amount" => amount
        }) do
     "/#{api_key()}/pair/#{current_currency}/#{target_currency}/#{amount}"
   end

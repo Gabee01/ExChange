@@ -1,19 +1,19 @@
 openapi: "3.0.2"
 info:
   title: ExChange API
-  description: An API to convert values between pairs of currencies
+  description: An API to convert amounts between pairs of currencies
   version: "1.0"
 servers:
   - url: http://localhost:4000/api/
 paths:
-  /convert/{value}/{current}/{target}:
+  /convert/{amount}/{current}/{target}:
     get:
-      summary: Converts the given value from current to target currency
-      description: Returns the value converted to the target currency, and the time the exchange rate was updated
+      summary: Converts the given amount from current to target currency
+      description: Returns the amount converted to the target currency, and the time the exchange rate was updated
       parameters:
         - in: path
-          name: value
-          description: Value of the amount being converted
+          name: amount
+          description: Amount being converted
           schema:
             type: string
           required: true
@@ -63,7 +63,10 @@ components:
               type: number
               format: double
               minimum: 0
+              description: The amount equivalent to the conversion between currencies pair
             currency:
               type: string
+              description: Target currency the amount was converted to
             updated_at:
               type: string
+              description: Timestamp for last update on the exchange rate on UTC timezone
