@@ -30,9 +30,9 @@ defmodule ExChangeWeb.ConverterControllerTest do
   test "GET /api/convert when conversion fails", %{conn: conn} do
     path_params = %{"current" => "EUR", "target" => "USD", "value" => "10"}
 
-    with_mock ExChange, convert: fn ^path_params -> {:error, ["some reason"]} end do
+    with_mock ExChange, convert: fn ^path_params -> {:error, "some reason"} end do
       conn = get(conn, "/api/convert/10/EUR/USD")
-      assert json_response(conn, 422) == %{"errors" => ["some reason"]}
+      assert json_response(conn, 400) == %{"errors" => "some reason"}
       assert_called(ExChange.convert(:_))
     end
   end

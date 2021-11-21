@@ -3,7 +3,7 @@ defmodule ExChangeWeb.FallbackController do
 
   def call(conn, {:error, reason}) do
     conn
-    |> put_status(:unprocessable_entity)
+    |> put_status(:bad_request)
     |> put_view(ExChangeWeb.ErrorView)
     |> render("error.json", errors: reason)
   end
