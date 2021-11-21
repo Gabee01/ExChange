@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: mix deps.get
       - name: Run tests
-        run: mix test
+        run: mix coveralls
       - name: Run format
         run: mix format --check-formatted
       - name: Run credo
