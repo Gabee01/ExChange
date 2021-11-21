@@ -7,6 +7,29 @@ on:
     branches: [main]
 
 jobs:
+  unused-deps:
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install OTP and Elixir
+        uses: erlef/setup-beam@988e02bfe678367a02564f65ca2e37726dc0268f
+        with:
+          otp-version: 24.1
+          elixir-version: 1.12.3
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
+      - name: Install dependencies
+        run: mix deps.get
+      - name: Checks for unused dependencies
+      - run: mix deps.unlock --check-unused
+
   test:
     runs-on: ubuntu-latest
     env:
@@ -27,7 +50,7 @@ jobs:
           restore-keys: ${{ runner.os }}-mix-
       - name: Install dependencies
         run: mix deps.get
-      - run: mix do compile --warnings-as-errors, test --warnings-as-errors,
+      - run: mix test
 
   format:
     runs-on: ubuntu-latest
