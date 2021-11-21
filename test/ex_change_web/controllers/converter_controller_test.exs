@@ -4,7 +4,7 @@ defmodule ExChangeWeb.ConverterControllerTest do
   alias ExChange.ConversionInfo
 
   test "GET /api/convert when conversion is successful", %{conn: conn} do
-    path_params = %{"current" => "EUR", "target" => "USD", "value" => "10"}
+    path_params = %{"current" => "EUR", "target" => "USD", "amount" => "10"}
 
     expected_conversion_info = %ConversionInfo{
       amount: 11.5280,
@@ -28,7 +28,7 @@ defmodule ExChangeWeb.ConverterControllerTest do
   end
 
   test "GET /api/convert when conversion fails", %{conn: conn} do
-    path_params = %{"current" => "EUR", "target" => "USD", "value" => "10"}
+    path_params = %{"current" => "EUR", "target" => "USD", "amount" => "10"}
 
     with_mock ExChange, convert: fn ^path_params -> {:error, "some reason"} end do
       conn = get(conn, "/api/convert/10/EUR/USD")

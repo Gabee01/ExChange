@@ -7,6 +7,6 @@ defmodule ExChangeWeb.Router do
 
   scope "/api", ExChangeWeb do
     pipe_through(:api)
-    get("/convert/:value/:current/:target", ConverterController, :convert)
+    get("/convert/:amount/:current/:target", ConverterController, :convert)
   end
 end

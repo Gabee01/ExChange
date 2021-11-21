@@ -1,6 +1,6 @@
 # ExChange
 
-This is ExChange, an API to convert values between currencies.
+This is ExChange, an API to convert amounts between currencies.
 
 ExChange uses [ExchangeRate API](https://www.exchangerate-api.com/) to convert currencies. More specifically it is a wrapper to the [pair conversion endpoint](https://www.exchangerate-api.com/docs/pair-conversion-requests)
 
@@ -19,8 +19,8 @@ Now you can visit [`localhost:4000/api/convert/100/USD/EUR`](http://localhost:40
 
 Limitations: 
 - [Here](https://www.exchangerate-api.com/docs/supported-currencies) is a list of supported currency codes;
-- The free API key updates the currency value every 24h;
-- The API does **not** support negative values on the url;
+- The free API key updates the exchange rate every 24h;
+- The API does **not** support negative amounts on the url;
 
 ## OpenAPI
 The api is documented using openAPI v3.0.
