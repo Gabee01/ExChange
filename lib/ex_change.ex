@@ -10,15 +10,15 @@ defmodule ExChange do
 
   ## Examples
 
-      iex> ExChange.convert(%{"current" => "USD", "target" => "EUR", "value" => "100"})
-      {:ok, %ConversionInfo{
-          amount: 1234.56,
-          currency: "BRL",
-          updated_at: ~U[2021-11-21 00:00:02Z]
-        }
+    iex> ExChange.convert(%{"current" => "USD", "target" => "EUR", "value" => "100"})
+    {:ok, %ConversionInfo{
+        amount: 1234.56,
+        currency: "BRL",
+        updated_at: ~U[2021-11-21 00:00:02Z]
       }
+    }
   """
-  @spec convert(map()) :: {:ok, float()} | {:error, any()}
+  @spec convert(map()) :: {:ok, ConversionInfo.t()} | {:error, any()}
   def convert(%{} = params) do
     conversion_path = build_conversion_path(params)
 

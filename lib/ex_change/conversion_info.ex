@@ -18,18 +18,18 @@ defmodule ExChange.ConversionInfo do
 
   ## Examples
 
-      iex> ConversionInfo.from_api(%{
-        "conversion_result" => 1234.56,
-        "time_last_update_unix" => 1_637_452_802,
-        "target_code" => "BRL"
-      })
-      {:ok, %ConversionInfo{
-          amount: 1234.56,
-          currency: "BRL",
-          updated_at: ~U[2021-11-21 00:00:02Z]
-        }
-      }
+    iex(1)> ConversionInfo.from_api(%{
+    ...(1)>         "conversion_result" => 1234.56,
+    ...(1)>         "time_last_update_unix" => 1_637_452_802,
+    ...(1)>         "target_code" => "BRL"
+    ...(1)>       })
+    %ExChange.ConversionInfo{
+      amount: 1234.56,
+      currency: "BRL",
+      updated_at: ~U[2021-11-21 00:00:02Z]
+    }
   """
+  @spec from_api(map()) :: ConversionInfo.t()
   def from_api(params) do
     %ConversionInfo{
       amount: params["conversion_result"],

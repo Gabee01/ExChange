@@ -1,6 +1,7 @@
 defmodule ExChange.ConversionInfoTest do
   use ExUnit.Case
   alias ExChange.ConversionInfo
+  doctest ConversionInfo
 
   describe "from_api/1" do
     test "returns ConversionInfo" do
