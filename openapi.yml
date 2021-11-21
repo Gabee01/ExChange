@@ -63,7 +63,7 @@ components:
               type: number
               format: double
               minimum: 0
-              description: The amount equivalent to the conversion between currencies pair
+              description: The converted amount at target currency
             currency:
               type: string
               description: Target currency the amount was converted to
