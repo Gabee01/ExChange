@@ -11,6 +11,7 @@ defmodule ExChange.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      elixirc_options: [warnings_as_errors: true],
       test_coverage: [tool: ExCoveralls]
     ]
   end
@@ -39,6 +40,7 @@ defmodule ExChange.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
+      {:decimal, "~> 2.0"},
       {:plug_cowboy, "~> 2.5"},
       {:tesla, "~> 1.4"},
       {:mock, "~> 0.3.7"},

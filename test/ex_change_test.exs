@@ -1,6 +1,7 @@
 defmodule ExChangeTest do
   use ExUnit.Case
   import Mock
+  alias ExChange.ConversionInfo
 
   describe "convert/2" do
     @url "https://v6.exchangerate-api.com/v6/"
@@ -14,16 +15,18 @@ defmodule ExChangeTest do
       expected_body = %{
         "result" => "success",
         "conversion_result" => 11.5280,
-        "time_last_update_utc" => "Sat, 20 Nov 2021 00:00:01 +0000"
+        "target_code" => "USD",
+        "time_last_update_unix" => 1_637_452_802
       }
 
       response = %Tesla.Env{body: expected_body, status: 200}
 
       with_mock Tesla, [:passthrough],
         get: fn %Tesla.Client{}, ^expected_url -> {:ok, response} end do
-        expected_conversion_info = %{
-          converted_value: 11.5280,
-          converted_at: "Sat, 20 Nov 2021 00:00:01 +0000"
+        expected_conversion_info = %ConversionInfo{
+          amount: 11.5280,
+          currency: "USD",
+          updated_at: ~U[2021-11-21 00:00:02Z]
         }
 
         assert ExChange.convert(params) == {:ok, expected_conversion_info}

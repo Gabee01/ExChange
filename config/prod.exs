@@ -49,3 +49,7 @@ config :logger, level: :info
 #       force_ssl: [hsts: true]
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
+
+config :ex_change, :conversion_api,
+  url: System.fetch_env!("CURRENCY_CONVERTER_URL"),
+  api_key: System.fetch_env!("CURRENCY_CONVERTER_API_KEY")
