@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build and test
+    name: Build, test and lint
     env:
       MIX_ENV: test
 

@@ -18,5 +18,6 @@ To start your `ExChange` server:
 Now you can visit [`localhost:4000/api/convert/100/USD/EUR`](http://localhost:4000/api/convert/100/USD/EUR) from your browser to convert 100 USD to EUR.
 
 Limitations: 
-- [Here](https://www.exchangerate-api.com/docs/supported-currencies) is a list of supported currency codes
-- The API does **not** support negative values on the url.
+- [Here](https://www.exchangerate-api.com/docs/supported-currencies) is a list of supported currency codes;
+- The free API key updates the currency value every 24h;
+- The API does **not** support negative values on the url;
