@@ -56,12 +56,14 @@ components:
       required:
         - conversion_info
       properties:
-        conversion_info:
+        data:
           type: object
           properties:
-            converted_at:
-              type: string
-            converted_value:
+            amount:
               type: number
               format: double
               minimum: 0
+            currency:
+              type: string
+            updated_at:
+              type: string
