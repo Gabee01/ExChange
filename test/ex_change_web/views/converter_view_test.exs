@@ -1,7 +1,7 @@
 defmodule ExChangeWeb.ConverterViewTest do
   use ExChangeWeb.ConnCase, async: true
-  alias ExChangeWeb.ConverterView
   alias ExChange.ConversionInfo
+  alias ExChangeWeb.ConverterView
 
   describe "render/2" do
     test "renders ConversionInfo" do

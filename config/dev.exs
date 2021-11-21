@@ -59,3 +59,7 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :ex_change, :conversion_api,
+  url: System.fetch_env!("CURRENCY_CONVERTER_URL"),
+  api_key: System.fetch_env!("CURRENCY_CONVERTER_API_KEY")
