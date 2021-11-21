@@ -1,0 +1,67 @@
+openapi: "3.0.2"
+info:
+  title: ExChange API
+  description: An API to convert values between pairs of currencies
+  version: "1.0"
+servers:
+  - url: http://localhost:4000/api/
+paths:
+  /convert/{value}/{current}/{target}:
+    get:
+      summary: Converts the given value from current to target currency
+      description: Returns the value converted to the target currency, and the time the exchange rate was updated
+      parameters:
+        - in: path
+          name: value
+          description: Value of the amount being converted
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: current
+          description: Symbol of the currency being converted
+          schema:
+            type: string
+          required: true
+        - in: path
+          name: target
+          description: Symbol of the target currency
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: Conversion response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Conversion"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: string
+
+        "500":
+          description: Internal Server Error
+
+components:
+  schemas:
+    Conversion:
+      type: object
+      required:
+        - conversion_info
+      properties:
+        conversion_info:
+          type: object
+          properties:
+            converted_at:
+              type: string
+            converted_value:
+              type: number
+              format: double
+              minimum: 0
