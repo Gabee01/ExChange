@@ -21,8 +21,8 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :ex_change, :conversion_api,
-  url: System.get_env("CURRENCY_CONVERTER_URL"),
-  api_key: System.get_env("CURRENCY_CONVERTER_API_KEY")
+  url: System.fetch_env!("CURRENCY_CONVERTER_URL"),
+  api_key: System.fetch_env!("CURRENCY_CONVERTER_API_KEY")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
